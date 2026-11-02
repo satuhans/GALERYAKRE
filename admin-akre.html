@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin INFO AKRE - AKRE BORONG</title>
+<style>
+body{margin:0;font-family:Segoe UI,Arial;background:#0f172a;color:#fff;padding:14px}
+h2{color:#facc15;margin:6px 0}
+label{font-size:11px;color:#facc15;font-weight:800;margin-top:12px;display:block}
+input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#fff;margin-top:6px;box-sizing:border-box;font-family:Segoe UI,Arial}
+.item-box{background:#1e293b;border:1px solid #facc15;border-radius:12px;padding:12px;margin-top:12px}
+.btn{padding:12px;background:#facc15;color:#000;font-weight:900;border:none;border-radius:10px;width:100%;margin-top:12px;cursor:pointer;display:block;text-align:center;text-decoration:none}
+.btn-green{background:#22c55e;color:#052e16}
+.btn-dark{background:#334155;color:#fff}
+pre{background:#020617;border:1px solid #334155;padding:12px;border-radius:10px;overflow:auto;font-size:11px;white-space:pre-wrap;word-break:break-word;max-height:400px}
+.small{font-size:11px;opacity:0.7}
+</style>
+</head><body>
+<h2>✏️ Admin INFO AKRE</h2>
+<p class="small">Tulis promo harian di sini dari HP → Generate → Copy → Paste ke file akre.json di GitHub → Commit. Web langsung update.</p>
+
+<label>Badge Atas (contoh: 🏅 INFO AKRE - UPDATE 13 MEI)</label>
+<input id="badge" value="🏅 INFO AKRE - UPDATE 13 MEI">
+<label>Judul Section</label>
+<input id="judul" value="INFO AKRE - ANCAK KREASI BORONG">
+<label>Promo Hari Ini (teks merah mencolok)</label>
+<textarea id="promo" rows="3">🔥 PROMO HARI INI: Paket Dekorasi + Dokumentasi Wedding DISKON Rp300rb + Bonus 10R! Jadwal kosong: Kamis & Jumat</textarea>
+
+<div id="items-container"></div>
+<button class="btn btn-dark" onclick="addItem()">+ Tambah Kotak Info</button>
+<button class="btn" onclick="generate()">🚀 Generate JSON akre.json</button>
+
+<pre id="output">Klik Generate untuk hasil JSON</pre>
+<button class="btn btn-green" onclick="copyJson()">📋 Copy JSON ke Clipboard</button>
+<a href="index.html" class="btn btn-dark">🏠 Lihat Web Utama</a>
+<a href="https://github.com" target="_blank" class="btn btn-dark">📂 Buka GitHub untuk Paste</a>
+
+<script>
+let items = [
+ {judul:"✅ Legalitas & Kepercayaan", isi:"Usaha resmi ANCAK KREASI, base di AKRE CENTER Borong. 500+ event wedding, adat, gereja sejak 2018. 100% foto di web ini karya asli kami."},
+ {judul:"📸 Akreditasi Karya Asli", isi:"Karya asli: Dekorasi pelaminan, dokumentasi Kaul Suster, Wedding Gereja, Baptis, Komuni. Tidak ambil dari Google. Bisa cek file RAW."},
+ {judul:"💎 Paket Lengkap - Ada Diskon", isi:"Ambil DEKORASI + DOKUMENTASI dapat diskon. Bonus cetak 10R + bingkai. Area: Borong, Elar, Kota Komba, Lamba Leda, Congkar, seluruh Manggarai Timur."},
+ {judul:"📞 Kontak Terbaru", isi:"WA: 085239261372 | IG: @akreborong | Alamat: AKRE CENTER, Jl. Utama Borong - Manggarai Timur NTT"}
+];
+
+function renderItems(){
+  const cont = document.getElementById('items-container');
+  cont.innerHTML='';
+  items.forEach((it,i)=>{
+    const div = document.createElement('div');
+    div.className='item-box';
+    div.innerHTML=`
+      <label>Kotak ${i+1} - Judul</label><input value="${it.judul.replace(/"/g,'&quot;')}" oninput="items[${i}].judul=this.value">
+      <label>Isi Kotak ${i+1}</label><textarea rows="3" oninput="items[${i}].isi=this.value">${it.isi}</textarea>
+      <button class="btn btn-dark" style="background:#450a0a;color:#fca5a5;margin-top:8px" onclick="removeItem(${i})">🗑 Hapus Kotak ${i+1}</button>
+    `;
+    cont.appendChild(div);
+  });
+}
+function addItem(){ items.push({judul:"Judul Baru", isi:"Isi baru..."}); renderItems(); }
+function removeItem(i){ if(confirm('Hapus kotak ini?')){ items.splice(i,1); renderItems(); } }
+
+function generate(){
+  const today = new Date().toISOString().split('T')[0];
+  const data = {
+    update_terakhir: today,
+    badge: document.getElementById('badge').value,
+    judul: document.getElementById('judul').value,
+    promo: document.getElementById('promo').value,
+    items: items
+  };
+  document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+}
+function copyJson(){
+  const text = document.getElementById('output').textContent;
+  if(text.includes('Klik Generate')){ alert('Klik Generate dulu Kak!'); return; }
+  navigator.clipboard.writeText(text).then(()=>alert('✅ JSON tercopy! Sekarang buka GitHub → akre.json → Edit → Paste → Commit'));
+}
+renderItems();
+</script>
+</body></html>
