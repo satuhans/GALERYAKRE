@@ -1,28 +1,24 @@
 {
   "update_terakhir": "2026-05-13",
-  "judul_section": "INFO AKRE - ANCAK KREASI BORONG",
-  "badge": "🏅 INFO AKRE - UPDATE HARIAN",
-  "promo_hari_ini": "🔥 PROMO HARI INI: Paket Dekorasi + Dokumentasi Wedding DISKON Rp300rb + Bonus Cetak 10R!",
-  "info_akre": [
+  "badge": "🏅 INFO AKRE - UPDATE 13 MEI",
+  "judul": "INFO AKRE - ANCAK KREASI BORONG",
+  "promo": "🔥 PROMO HARI INI: Paket Dekorasi + Dokumentasi Wedding DISKON Rp300rb + Bonus 10R! Jadwal kosong: Kamis & Jumat",
+  "items": [
     {
       "judul": "✅ Legalitas & Kepercayaan",
-      "isi": "Usaha resmi ANCAK KREASI, base di AKRE CENTER Borong. Melayani 500+ event wedding, adat, gereja sejak 2018. Semua foto 100% karya asli tim kami.",
-      "warna": "#ffffff"
+      "isi": "Usaha resmi ANCAK KREASI, base di AKRE CENTER Borong. 500+ event wedding, adat, gereja sejak 2018. 100% foto di web ini karya asli kami."
     },
     {
       "judul": "📸 Akreditasi Karya Asli",
-      "isi": "Karya asli: Dekorasi pelaminan, dokumentasi Kaul Suster, Wedding Gereja, Baptis, Komuni. Tidak ambil dari Google. Bisa cek file RAW.",
-      "warna": "#ffffff"
+      "isi": "Karya asli: Dekorasi pelaminan, dokumentasi Kaul Suster, Wedding Gereja, Baptis, Komuni. Tidak ambil dari Google. Bisa cek file RAW."
     },
     {
       "judul": "💎 Paket Lengkap - Ada Diskon",
-      "isi": "Ambil paket DEKORASI + DOKUMENTASI dapat diskon Rp300rb. Bonus cetak foto 10R + bingkai. Area: Borong, Elar, Kota Komba, Lamba Leda, Congkar, seluruh Manggarai Timur.",
-      "warna": "#ffffff"
+      "isi": "Ambil DEKORASI + DOKUMENTASI dapat diskon. Bonus cetak 10R + bingkai. Area: Borong, Elar, Kota Komba, Lamba Leda, Congkar, seluruh Manggarai Timur."
     },
     {
-      "judul": "📞 Kontak & Alamat - UPDATE 13 Mei",
-      "isi": "WA: 085239261372 | IG: @akreborong | Alamat: AKRE CENTER, Jl. Utama Borong - Manggarai Timur NTT. Jadwal kosong minggu ini: Kamis & Jumat masih kosong, chat WA cepat!",
-      "warna": "#0f172a"
+      "judul": "📞 Kontak Terbaru",
+      "isi": "WA: 085239261372 | IG: @akreborong | Alamat: AKRE CENTER, Jl. Utama Borong - Manggarai Timur NTT"
     }
   ]
 }
