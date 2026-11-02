@@ -8,6 +8,19 @@
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="logo.png">
+<style>
+/* LOGIN & EDIT LANGSUNG */
+#loginModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;display:none;align-items:center;justify-content:center}
+#loginModal.active{display:flex}
+.login-box{background:#1e293b;border:2px solid #facc15;border-radius:18px;padding:22px;width:92%;max-width:360px}
+.login-box input{width:100%;padding:12px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff;margin-top:6px;box-sizing:border-box}
+.btn-login{width:100%;padding:12px;background:#facc15;color:#000;font-weight:900;border:none;border-radius:10px;margin-top:12px;cursor:pointer}
+.edit-bar{display:none;gap:8px;flex-wrap:wrap;margin-top:10px}
+.edit-bar.active{display:flex}
+.editable[contenteditable="true"]{outline:2px dashed #facc15;background:#fffbeb!important;border-radius:6px}
+.admin-on{display:none;background:#22c55e;color:#052e16;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:900}
+.admin-on.active{display:inline-block}
+</style>
 </head>
 <body>
 
@@ -15,8 +28,12 @@
  <div class="logo">
   <img src="logo.png" alt="Logo AKRE BORONG" class="logo-img">
   <div class="logo-text">AKRE <span>BORONG</span><small>Decoration & Documentation</small></div>
+  <span id="adminBadge" class="admin-on">ADMIN</span>
 </div>
+<div style="display:flex;gap:8px;align-items:center">
+  <button id="btnLogin" onclick="openLogin()" class="btn btn-red-small" style="border:none;cursor:pointer;background:#0f172a;color:#facc15">🔐 LOGIN</button>
   <a href="https://wa.me/6285239261372" class="btn btn-red-small">ORDER WA</a>
+</div>
 </header>
 
 <nav class="menu-bar">
@@ -61,14 +78,20 @@
   <div class="feature-box"><h3>BATU NISAN</h3><p>Mulai Rp600rb</p><a href="#batu-nisan" class="btn btn-dark">Detail →</a></div>
 </section>
 
-<!-- INFO AKRE - AUTO UPDATE DARI akre.json -->
+<!-- INFO AKRE - BISA EDIT SETELAH LOGIN -->
 <section id="info-akre" class="konten-section" style="background:linear-gradient(180deg,#fffbeb,#ffffff);border:2px solid #facc15;border-radius:16px;padding:20px;margin:20px 10px">
   <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center">
-    <div>
-      <span class="badge-top" id="akre-badge" style="background:#92400e;color:#fef3c7">🏅 INFO AKRE - Loading...</span>
-      <h2 id="akre-judul" style="margin:8px 0 4px;color:#92400e">INFO AKRE - ANCAK KREASI BORONG</h2>
-      <p id="akre-promo" style="margin:0;font-weight:700;color:#dc2626;background:#fef2f2;padding:8px 10px;border-radius:8px;border:1px dashed #fca5a5">Loading promo hari ini...</p>
+    <div style="flex:1">
+      <span class="badge-top editable" id="akre-badge" style="background:#92400e;color:#fef3c7">🏅 INFO AKRE - Loading...</span>
+      <h2 class="editable" id="akre-judul" style="margin:8px 0 4px;color:#92400e">INFO AKRE - ANCAK KREASI BORONG</h2>
+      <p class="editable" id="akre-promo" style="margin:0;font-weight:700;color:#dc2626;background:#fef2f2;padding:8px 10px;border-radius:8px;border:1px dashed #fca5a5">Loading promo hari ini...</p>
       <p id="akre-update" style="margin:6px 0 0;font-size:11px;opacity:0.6">Update: -</p>
+      <div id="editBar" class="edit-bar">
+        <button onclick="saveAkre()" style="padding:8px 14px;background:#22c55e;color:#052e16;font-weight:900;border:none;border-radius:8px;cursor:pointer">💾 SIMPAN</button>
+        <button onclick="addItem()" style="padding:8px 14px;background:#0f172a;color:#facc15;font-weight:900;border:none;border-radius:8px;cursor:pointer">+ Tambah Kotak</button>
+        <button onclick="resetAkre()" style="padding:8px 14px;background:#334155;color:#fff;border:none;border-radius:8px;cursor:pointer">Reset</button>
+        <span style="font-size:11px">Klik teks untuk edit</span>
+      </div>
     </div>
     <div style="background:#0f172a;color:#facc15;padding:10px 14px;border-radius:12px;font-weight:900;text-align:center">AKRE CENTER<br><small style="color:#fff;font-weight:400">Borong - NTT</small></div>
   </div>
@@ -161,6 +184,22 @@
   <img id="lightbox-img" src="">
 </div>
 
+<!-- LOGIN MODAL -->
+<div id="loginModal" onclick="if(event.target===this) closeLogin()">
+  <div class="login-box">
+    <h3 style="margin:0;color:#facc15;text-align:center">🔐 Login Admin Edit</h3>
+    <p style="font-size:11px;opacity:0.7;text-align:center">Edit INFO AKRE langsung di sini</p>
+    <label style="font-size:11px;color:#facc15">Username</label>
+    <input id="loginUser" value="akre">
+    <label style="font-size:11px;color:#facc15">Password</label>
+    <input id="loginPass" type="password" placeholder="Password">
+    <div id="loginErr" style="color:#fca5a5;font-size:12px;margin-top:8px;display:none"></div>
+    <button class="btn-login" onclick="doLogin()">Masuk & Edit</button>
+    <p style="font-size:10px;opacity:0.6;text-align:center;margin-top:8px">Default: akre / akre2026</p>
+    <button onclick="closeLogin()" style="width:100%;margin-top:8px;padding:10px;background:transparent;color:#fff;border:1px solid #334155;border-radius:10px;cursor:pointer">Batal</button>
+  </div>
+</div>
+
 <section class="cta"><h2>Siap Order? Klik Tombol Cantik di Bawah Ini</h2><div class="cta-buttons"><a href="https://wa.me/6285239261372" class="btn btn-gradient-blue">✨ Chat WA Sekarang</a><a href="#dekorasi" class="btn btn-gradient-red">🔥 Lihat Galeri Dekorasi</a></div></section>
 
 <footer>ANCAK KREASI © 2026 - WA 085239261372 - Borong, Manggarai Timur NTT - AKRE CENTER</footer>
@@ -183,29 +222,124 @@ function filterDok(cat){
   });
 }
 
-// LOAD INFO AKRE DARI akre.json
-async function loadAkre(){
-  try{
-    const res = await fetch('akre.json?t='+Date.now());
-    const data = await res.json();
-    document.getElementById('akre-badge').textContent = data.badge;
-    document.getElementById('akre-judul').textContent = data.judul;
-    document.getElementById('akre-promo').textContent = data.promo;
-    document.getElementById('akre-update').textContent = 'Update: ' + data.update_terakhir;
-    document.getElementById('menu-akre').textContent = '🏅 ' + data.badge;
-    const grid = document.getElementById('akre-grid');
-    grid.innerHTML = '';
-    data.items.forEach(it=>{
-      const div = document.createElement('div');
-      div.className = 'gallery-item';
-      div.style.cssText = 'background:#fff;border:1px solid #facc15;padding:12px;border-radius:12px';
-      div.innerHTML = `<h4 style="margin:0 0 6px;color:#0f172a">${it.judul}</h4><p style="font-size:13px;line-height:1.5;margin:0">${it.isi}</p>`;
-      grid.appendChild(div);
-    });
-  }catch(e){
-    document.getElementById('akre-grid').innerHTML = '<div style="grid-column:1/-1;padding:16px;background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;text-align:center">Gagal load akre.json - pastikan file akre.json ada di folder yang sama<br><small>'+e.message+'</small></div>';
+// LOGIN + EDIT LANGSUNG
+const DEFAULT_USER='akre', DEFAULT_PASS='akre2026';
+let isAdmin=false, akreItems=[];
+
+function getCreds(){return {u:localStorage.getItem('akre_user')||DEFAULT_USER, p:localStorage.getItem('akre_pass')||DEFAULT_PASS};}
+function openLogin(){document.getElementById('loginModal').classList.add('active');}
+function closeLogin(){document.getElementById('loginModal').classList.remove('active');}
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  const c=getCreds();
+  if(u===c.u && p===c.p){
+    localStorage.setItem('akre_login_token','ok');
+    localStorage.setItem('akre_login_expiry',(Date.now()+24*60*60*1000).toString());
+    isAdmin=true; closeLogin(); enableEdit(); alert('✅ Login berhasil! Klik teks INFO AKRE untuk edit langsung, lalu SIMPAN.');
+  }else{
+    const err=document.getElementById('loginErr'); err.style.display='block'; err.textContent='Salah! Default akre / akre2026';
   }
 }
+function doLogout(){
+  localStorage.removeItem('akre_login_token');
+  localStorage.removeItem('akre_login_expiry');
+  isAdmin=false; disableEdit();
+}
+function checkLogin(){
+  const t=localStorage.getItem('akre_login_token');
+  const e=localStorage.getItem('akre_login_expiry');
+  if(t && e && Date.now()<parseInt(e)){ isAdmin=true; enableEdit(); }
+}
+function enableEdit(){
+  document.querySelectorAll('.editable').forEach(el=>el.setAttribute('contenteditable','true'));
+  document.getElementById('editBar').classList.add('active');
+  document.getElementById('adminBadge').classList.add('active');
+  document.getElementById('btnLogin').textContent='🚪 LOGOUT';
+  document.getElementById('btnLogin').onclick=doLogout;
+  renderItems(true);
+}
+function disableEdit(){
+  document.querySelectorAll('.editable').forEach(el=>el.removeAttribute('contenteditable'));
+  document.getElementById('editBar').classList.remove('active');
+  document.getElementById('adminBadge').classList.remove('active');
+  document.getElementById('btnLogin').textContent='🔐 LOGIN';
+  document.getElementById('btnLogin').onclick=openLogin;
+  renderItems(false);
+}
+
+async function loadAkre(){
+  let data=null;
+  const saved=localStorage.getItem('akre_data');
+  if(saved){ try{ data=JSON.parse(saved); }catch(e){} }
+  if(!data){
+    try{
+      const res=await fetch('akre.json?t='+Date.now());
+      data=await res.json();
+    }catch(e){
+      data={
+        update_terakhir:new Date().toISOString().split('T')[0],
+        badge:"🏅 INFO AKRE - UPDATE HARI INI",
+        judul:"INFO AKRE - ANCAK KREASI BORONG",
+        promo:"🔥 PROMO HARI INI: Paket Dekorasi + Dokumentasi Wedding DISKON Rp300rb!",
+        items:[
+          {judul:"✅ Legalitas & Kepercayaan", isi:"Usaha resmi ANCAK KREASI, base di AKRE CENTER Borong. 500+ event wedding, adat, gereja sejak 2018."},
+          {judul:"📸 Akreditasi Karya Asli", isi:"100% foto asli karya kami, bukan Google. Bisa cek file RAW."},
+          {judul:"💎 Paket Lengkap - Ada Diskon", isi:"Ambil DEKORASI + DOKUMENTASI dapat diskon. Area seluruh Manggarai Timur."},
+          {judul:"📞 Kontak", isi:"WA 085239261372 - AKRE CENTER Borong"}
+        ]
+      };
+    }
+  }
+  document.getElementById('akre-badge').textContent=data.badge;
+  document.getElementById('akre-judul').textContent=data.judul;
+  document.getElementById('akre-promo').textContent=data.promo;
+  document.getElementById('akre-update').textContent='Update: '+data.update_terakhir;
+  document.getElementById('menu-akre').textContent='🏅 '+data.badge;
+  akreItems=data.items||[];
+  renderItems(isAdmin);
+}
+function renderItems(editable){
+  const grid=document.getElementById('akre-grid'); grid.innerHTML='';
+  akreItems.forEach((it,i)=>{
+    const div=document.createElement('div');
+    div.className='gallery-item';
+    div.style.cssText='background:#fff;border:1px solid #facc15;padding:12px;border-radius:12px;position:relative';
+    div.innerHTML=`
+      <h4 class="${editable?'editable':''}" data-i="${i}" data-k="judul" style="margin:0 0 6px;color:#0f172a">${it.judul}</h4>
+      <p class="${editable?'editable':''}" data-i="${i}" data-k="isi" style="font-size:13px;line-height:1.5;margin:0">${it.isi}</p>
+      ${editable?`<button onclick="deleteItem(${i})" style="position:absolute;top:6px;right:6px;background:#450a0a;color:#fca5a5;border:none;border-radius:6px;padding:2px 6px;font-size:10px;cursor:pointer">X</button>`:''}
+    `;
+    grid.appendChild(div);
+  });
+  if(editable){
+    grid.querySelectorAll('.editable').forEach(el=>{
+      el.setAttribute('contenteditable','true');
+      el.addEventListener('input', e=>{
+        const idx=e.target.dataset.i; const key=e.target.dataset.k;
+        akreItems[idx][key]=e.target.textContent;
+      });
+    });
+  }
+}
+function addItem(){ akreItems.push({judul:"Judul Baru", isi:"Isi baru, klik untuk edit"}); renderItems(true); }
+function deleteItem(i){ if(confirm('Hapus kotak ini?')){ akreItems.splice(i,1); renderItems(true); } }
+function saveAkre(){
+  const today=new Date().toISOString().split('T')[0];
+  const data={
+    update_terakhir:today,
+    badge:document.getElementById('akre-badge').textContent,
+    judul:document.getElementById('akre-judul').textContent,
+    promo:document.getElementById('akre-promo').textContent,
+    items:akreItems
+  };
+  localStorage.setItem('akre_data', JSON.stringify(data));
+  document.getElementById('akre-update').textContent='Update: '+today+' (Tersimpan di HP ini)';
+  alert('✅ DISIMPAN & LIVE!\n\nWeb langsung update di HP ini. Untuk permanen biar semua pengunjung lihat, copy data ini ke akre.json di GitHub:\n\nBuka console F12 ketik: copy(localStorage.getItem("akre_data"))');
+}
+function resetAkre(){ if(confirm('Reset ke data akre.json asli?')){ localStorage.removeItem('akre_data'); loadAkre(); } }
+
+checkLogin();
 loadAkre();
 </script>
 </body>
