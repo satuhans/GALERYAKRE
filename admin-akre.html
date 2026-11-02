@@ -1,49 +1,166 @@
 <!DOCTYPE html>
 <html lang="id"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Admin INFO AKRE - AKRE BORONG</title>
+<title>Login Admin - AKRE BORONG</title>
 <style>
 body{margin:0;font-family:Segoe UI,Arial;background:#0f172a;color:#fff;padding:14px}
 h2{color:#facc15;margin:6px 0}
 label{font-size:11px;color:#facc15;font-weight:800;margin-top:12px;display:block}
-input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#fff;margin-top:6px;box-sizing:border-box;font-family:Segoe UI,Arial}
+input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;margin-top:6px;box-sizing:border-box;font-family:Segoe UI,Arial}
 .item-box{background:#1e293b;border:1px solid #facc15;border-radius:12px;padding:12px;margin-top:12px}
 .btn{padding:12px;background:#facc15;color:#000;font-weight:900;border:none;border-radius:10px;width:100%;margin-top:12px;cursor:pointer;display:block;text-align:center;text-decoration:none}
 .btn-green{background:#22c55e;color:#052e16}
 .btn-dark{background:#334155;color:#fff}
+.btn-red{background:#450a0a;color:#fca5a5;border:1px solid #ef4444}
 pre{background:#020617;border:1px solid #334155;padding:12px;border-radius:10px;overflow:auto;font-size:11px;white-space:pre-wrap;word-break:break-word;max-height:400px}
 .small{font-size:11px;opacity:0.7}
+#loginPage{display:flex;min-height:90vh;align-items:center;justify-content:center}
+.login-card{background:#1e293b;border:2px solid #facc15;border-radius:18px;padding:22px;width:100%;max-width:380px;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+.login-card img{width:60px;height:60px;background:#fff;border-radius:12px;padding:4px;display:block;margin:0 auto 10px}
+#adminPage{display:none}
 </style>
 </head><body>
-<h2>✏️ Admin INFO AKRE</h2>
-<p class="small">Tulis promo harian di sini dari HP → Generate → Copy → Paste ke file akre.json di GitHub → Commit. Web langsung update.</p>
 
-<label>Badge Atas (contoh: 🏅 INFO AKRE - UPDATE 13 MEI)</label>
+<!-- HALAMAN LOGIN -->
+<div id="loginPage">
+<div class="login-card">
+<img src="logo.png" onerror="this.src='assets/logo_sma3.png'">
+<h2 style="text-align:center">🔐 Login Admin<br>AKRE BORONG</h2>
+<p class="small" style="text-align:center">Masuk untuk update INFO AKRE harian</p>
+<label>Username</label>
+<input id="username" placeholder="akre" value="akre">
+<label>Password</label>
+<input id="password" type="password" placeholder="Password admin">
+<div id="loginError" style="color:#fca5a5;font-size:12px;margin-top:8px;display:none"></div>
+<button class="btn" onclick="doLogin()">Masuk →</button>
+<p class="small" style="margin-top:12px;text-align:center">Default: Username <b>akre</b><br>Password <b>akre2026</b><br>Bisa diganti setelah login</p>
+<a href="index.html" class="btn btn-dark">🏠 Kembali ke Web</a>
+</div>
+</div>
+
+<!-- HALAMAN ADMIN (SETELAH LOGIN) -->
+<div id="adminPage">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+<h2>✏️ Admin INFO AKRE</h2>
+<div style="display:flex;gap:8px"><button class="btn btn-dark" style="width:auto;padding:8px 12px" onclick="openSetting()">⚙️ Ganti Password</button><button class="btn btn-red" style="width:auto;padding:8px 12px" onclick="doLogout()">🚪 Logout</button></div>
+</div>
+<p class="small">Login sebagai <b id="userInfo">akre</b> • <span id="loginTime"></span> • Update INFO AKRE tanpa edit HTML</p>
+
+<div id="settingBox" style="display:none;background:#020617;border:1px dashed #facc15;padding:12px;border-radius:10px;margin-top:10px">
+<label>Ganti Username Baru</label><input id="newUser" placeholder="Username baru">
+<label>Ganti Password Baru</label><input id="newPass" type="password" placeholder="Password baru minimal 6 huruf">
+<button class="btn btn-green" onclick="saveSetting()">💾 Simpan Password Baru</button>
+</div>
+
+<label>Badge Atas</label>
 <input id="badge" value="🏅 INFO AKRE - UPDATE 13 MEI">
 <label>Judul Section</label>
 <input id="judul" value="INFO AKRE - ANCAK KREASI BORONG">
-<label>Promo Hari Ini (teks merah mencolok)</label>
+<label>Promo Hari Ini (merah mencolok)</label>
 <textarea id="promo" rows="3">🔥 PROMO HARI INI: Paket Dekorasi + Dokumentasi Wedding DISKON Rp300rb + Bonus 10R! Jadwal kosong: Kamis & Jumat</textarea>
 
 <div id="items-container"></div>
 <button class="btn btn-dark" onclick="addItem()">+ Tambah Kotak Info</button>
 <button class="btn" onclick="generate()">🚀 Generate JSON akre.json</button>
-
 <pre id="output">Klik Generate untuk hasil JSON</pre>
 <button class="btn btn-green" onclick="copyJson()">📋 Copy JSON ke Clipboard</button>
 <a href="index.html" class="btn btn-dark">🏠 Lihat Web Utama</a>
-<a href="https://github.com" target="_blank" class="btn btn-dark">📂 Buka GitHub untuk Paste</a>
+<a href="https://github.com" target="_blank" class="btn btn-dark">📂 Buka GitHub untuk Paste ke akre.json</a>
+</div>
 
 <script>
+// CONFIG LOGIN - DEFAULT
+const DEFAULT_USER = 'akre';
+const DEFAULT_PASS = 'akre2026';
+let failCount = 0;
+let lockUntil = 0;
+
+function getCreds(){
+  const u = localStorage.getItem('akre_user') || DEFAULT_USER;
+  const p = localStorage.getItem('akre_pass') || DEFAULT_PASS;
+  return {u,p};
+}
+
+function checkAlreadyLogin(){
+  const token = localStorage.getItem('akre_login_token');
+  const expiry = localStorage.getItem('akre_login_expiry');
+  if(token && expiry && Date.now() < parseInt(expiry)){
+    showAdmin();
+  }
+}
+
+function doLogin(){
+  const now = Date.now();
+  if(now < lockUntil){
+    const sisa = Math.ceil((lockUntil - now)/1000);
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('loginError').textContent = 'Terkunci '+sisa+' detik karena salah 3x. Tunggu.';
+    return;
+  }
+  const inputU = document.getElementById('username').value.trim();
+  const inputP = document.getElementById('password').value;
+  const creds = getCreds();
+  if(inputU === creds.u && inputP === creds.p){
+    failCount=0;
+    localStorage.setItem('akre_login_token','ok_'+Date.now());
+    localStorage.setItem('akre_login_expiry',(Date.now()+24*60*60*1000).toString());
+    localStorage.setItem('akre_last_login_user', inputU);
+    showAdmin();
+  }else{
+    failCount++;
+    const err = document.getElementById('loginError');
+    err.style.display='block';
+    err.textContent = 'Username / Password salah! Percobaan '+failCount+'/3';
+    if(failCount>=3){
+      lockUntil = Date.now()+60*1000;
+      err.textContent = 'Salah 3x! Terkunci 60 detik.';
+    }
+  }
+}
+
+function showAdmin(){
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('adminPage').style.display='block';
+  document.getElementById('userInfo').textContent = localStorage.getItem('akre_last_login_user') || getCreds().u;
+  document.getElementById('loginTime').textContent = 'Login: '+new Date().toLocaleString('id-ID');
+  renderItems();
+}
+
+function doLogout(){
+  if(confirm('Logout admin?')){
+    localStorage.removeItem('akre_login_token');
+    localStorage.removeItem('akre_login_expiry');
+    location.reload();
+  }
+}
+
+function openSetting(){
+  const box = document.getElementById('settingBox');
+  box.style.display = box.style.display==='none'?'block':'none';
+  const creds = getCreds();
+  document.getElementById('newUser').value = creds.u;
+}
+function saveSetting(){
+  const nu = document.getElementById('newUser').value.trim();
+  const np = document.getElementById('newPass').value.trim();
+  if(nu.length<3){ alert('Username minimal 3 huruf'); return; }
+  if(np.length<6){ alert('Password minimal 6 huruf'); return; }
+  localStorage.setItem('akre_user', nu);
+  localStorage.setItem('akre_pass', np);
+  alert('✅ Username & Password baru disimpan!\nUsername: '+nu+'\nPassword: '+np+'\n\nIngat baik-baik! Login selanjutnya pakai yang baru.');
+  document.getElementById('settingBox').style.display='none';
+}
+
+// ADMIN AKRE LOGIC
 let items = [
  {judul:"✅ Legalitas & Kepercayaan", isi:"Usaha resmi ANCAK KREASI, base di AKRE CENTER Borong. 500+ event wedding, adat, gereja sejak 2018. 100% foto di web ini karya asli kami."},
  {judul:"📸 Akreditasi Karya Asli", isi:"Karya asli: Dekorasi pelaminan, dokumentasi Kaul Suster, Wedding Gereja, Baptis, Komuni. Tidak ambil dari Google. Bisa cek file RAW."},
  {judul:"💎 Paket Lengkap - Ada Diskon", isi:"Ambil DEKORASI + DOKUMENTASI dapat diskon. Bonus cetak 10R + bingkai. Area: Borong, Elar, Kota Komba, Lamba Leda, Congkar, seluruh Manggarai Timur."},
  {judul:"📞 Kontak Terbaru", isi:"WA: 085239261372 | IG: @akreborong | Alamat: AKRE CENTER, Jl. Utama Borong - Manggarai Timur NTT"}
 ];
-
 function renderItems(){
   const cont = document.getElementById('items-container');
+  if(!cont) return;
   cont.innerHTML='';
   items.forEach((it,i)=>{
     const div = document.createElement('div');
@@ -51,14 +168,13 @@ function renderItems(){
     div.innerHTML=`
       <label>Kotak ${i+1} - Judul</label><input value="${it.judul.replace(/"/g,'&quot;')}" oninput="items[${i}].judul=this.value">
       <label>Isi Kotak ${i+1}</label><textarea rows="3" oninput="items[${i}].isi=this.value">${it.isi}</textarea>
-      <button class="btn btn-dark" style="background:#450a0a;color:#fca5a5;margin-top:8px" onclick="removeItem(${i})">🗑 Hapus Kotak ${i+1}</button>
+      <button class="btn btn-red" style="margin-top:8px" onclick="removeItem(${i})">🗑 Hapus Kotak ${i+1}</button>
     `;
     cont.appendChild(div);
   });
 }
 function addItem(){ items.push({judul:"Judul Baru", isi:"Isi baru..."}); renderItems(); }
 function removeItem(i){ if(confirm('Hapus kotak ini?')){ items.splice(i,1); renderItems(); } }
-
 function generate(){
   const today = new Date().toISOString().split('T')[0];
   const data = {
@@ -73,8 +189,10 @@ function generate(){
 function copyJson(){
   const text = document.getElementById('output').textContent;
   if(text.includes('Klik Generate')){ alert('Klik Generate dulu Kak!'); return; }
-  navigator.clipboard.writeText(text).then(()=>alert('✅ JSON tercopy! Sekarang buka GitHub → akre.json → Edit → Paste → Commit'));
+  navigator.clipboard.writeText(text).then(()=>alert('✅ JSON tercopy! Buka GitHub → akre.json → Edit → Paste → Commit'));
 }
-renderItems();
+
+checkAlreadyLogin();
+document.getElementById('password').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
 </script>
 </body></html>
