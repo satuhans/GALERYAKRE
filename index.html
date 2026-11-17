@@ -32,7 +32,6 @@
 .chip-jenis button.aktif{background:#0a3a8a!important;color:#fff!important}
 .tema-btn{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #ccc;cursor:pointer;display:inline-block;margin:4px}
 .tema-btn.aktif{box-shadow:0 0 0 3px #0a3a8a}
-/* 10 TEMPLATE AKRE */
 .template-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 10px}
 .template-item{border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;font-weight:700;border:3px solid transparent;color:#fff;min-height:58px;display:flex;flex-direction:column;justify-content:center}
 .template-item small{font-weight:400;font-size:10px;opacity:.9}
@@ -62,7 +61,15 @@
 .tema-biru .atas,.tema-biru .bawah{background:linear-gradient(135deg,rgba(10,58,138,.95),rgba(46,107,255,.95));color:#fff}.tema-biru .garis{background:#0a3a8a}
 .tema-hijau .atas,.tema-hijau .bawah{background:linear-gradient(135deg,rgba(10,122,66,.95),rgba(31,201,106,.95));color:#fff}.tema-hijau .garis{background:#0a7a42}
 .tema-pink .atas,.tema-pink .bawah{background:linear-gradient(135deg,rgba(194,24,91,.95),rgba(255,138,176,.95));color:#fff}.tema-pink .garis{background:#c2185b}
-/* COVER AMPLOP */
+/* PERBAIKAN FONT - MENANG ATAS TEMPLATE */
+#previewUndangan .isi{color:var(--warnaFont,#333)}
+#previewUndangan .nama-besar{font-family:var(--fontNama,'Great Vibes',cursive)!important;font-size:var(--ukuranNama,48px)!important;color:var(--warnaFont,#333)!important}
+#previewUndangan .nama-acara, #previewUndangan .judul-kecil{font-family:var(--fontIsi,'Poppins',sans-serif)!important;color:var(--warnaFont,#333)!important}
+#previewUndangan .detail, #previewUndangan .bawah{font-family:var(--fontIsi,'Poppins',sans-serif)!important;color:var(--warnaFont,#333)!important}
+#previewUndangan .atas{color:var(--warnaFont,#333)!important}
+#coverUndangan{color:var(--warnaFont,#fff)!important}
+#coverUndangan .nama-tamu{font-family:var(--fontNama,'Great Vibes',cursive)!important}
+#coverUndangan .btn-buka{color:#222!important}
 .cover-undangan{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;text-align:center;color:#fff;transition:all .8s ease}
 .cover-undangan.tersembunyi{opacity:0;pointer-events:none;transform:scale(1.15)}
 .cover-undangan .amplop{font-size:72px;animation:melayang 2s infinite}
@@ -167,10 +174,10 @@
     <div class="gallery-item"><img src="nisan4.jpg" onclick="openLightbox(this.src)"><span class="gallery-caption">Marmer Pink - Rp800rb</span></div>
 </div></section>
 
-<!-- UNDANGAN : 10 TEMPLATE + AMPLOP + MUSIK -->
+<!-- UNDANGAN FULL -->
 <section id="undangan" class="konten-section" style="background:#f8f9ff">
   <h2>💌 UNDANGAN DIGITAL - 10 TEMPLATE AKRE + AMPLOP + MUSIK</h2>
-  <p>Pilih template, upload design / foto kalau mau, lalu lihat preview amplopnya di kanan. Klik BUKA UNDANGAN untuk coba seperti tamu.</p>
+  <p>Pilih template, upload design / foto kalau mau, ganti warna font & jenis huruf, lalu lihat preview amplopnya di kanan.</p>
   <div class="undangan-wrap">
     <div class="undangan-form no-print">
       <label>Pilih Jenis Undangan:</label>
@@ -196,7 +203,48 @@
         <div class="template-item t10" data-t="10" onclick="pilihTemplate(10,this)">10. Sambut Biru Muda<small>Bayi / Sambut Baru</small></div>
       </div>
 
-      <label>🎨 Atau UPLOAD DESIGN KAMU SENDIRI (akan ganti template di atas)</label>
+      <!-- PERBAIKAN FONT: WARNA + JENIS HURUF -->
+      <label>🎨 WARNA FONT - Sekarang Bisa Diganti!</label>
+      <div style="display:flex;gap:8px;align-items:center;margin:6px 0 10px;flex-wrap:wrap">
+        <input type="color" id="fWarnaFont" value="#4a3200" oninput="setWarnaFont(this.value)" style="width:50px;height:40px;padding:2px;cursor:pointer">
+        <button type="button" onclick="setWarnaFont('#000000')" style="width:32px;height:32px;border-radius:50%;background:#000;border:2px solid #fff;box-shadow:0 0 0 2px #ccc;cursor:pointer" title="Hitam"></button>
+        <button type="button" onclick="setWarnaFont('#ffffff')" style="width:32px;height:32px;border-radius:50%;background:#fff;border:2px solid #ccc;cursor:pointer" title="Putih"></button>
+        <button type="button" onclick="setWarnaFont('#c9a227')" style="width:32px;height:32px;border-radius:50%;background:#c9a227;border:2px solid #fff;box-shadow:0 0 0 2px #ccc;cursor:pointer" title="Emas"></button>
+        <button type="button" onclick="setWarnaFont('#b71c1c')" style="width:32px;height:32px;border-radius:50%;background:#b71c1c;border:2px solid #fff;box-shadow:0 0 0 2px #ccc;cursor:pointer" title="Merah"></button>
+        <button type="button" onclick="setWarnaFont('#0a3a8a')" style="width:32px;height:32px;border-radius:50%;background:#0a3a8a;border:2px solid #fff;box-shadow:0 0 0 2px #ccc;cursor:pointer" title="Biru"></button>
+        <button type="button" onclick="setWarnaFont('#5a3d00')" style="width:32px;height:32px;border-radius:50%;background:#5a3d00;border:2px solid #fff;box-shadow:0 0 0 2px #ccc;cursor:pointer" title="Coklat"></button>
+        <span id="labelWarnaFont" style="font-size:12px;font-weight:700">#4a3200</span>
+        <button type="button" onclick="resetWarnaFont()" style="width:auto!important;padding:6px 10px!important;font-size:12px;background:#888;color:#fff;border:none;border-radius:20px;cursor:pointer">↩️ Balik ke Warna Template</button>
+      </div>
+
+      <label>🔤 JENIS HURUF NAMA BESAR (Pengantin / Anak)</label>
+      <select id="fFontNama" onchange="updateFontUndangan()">
+        <option value="'Great Vibes',cursive">Great Vibes - Tulisan Sambung Cantik</option>
+        <option value="'Playfair Display',serif">Playfair - Tegas & Mewah</option>
+        <option value="'Poppins',sans-serif">Poppins - Modern & Bersih</option>
+        <option value="'Times New Roman',serif">Times - Klasik</option>
+        <option value="Arial,sans-serif">Arial - Simpel</option>
+        <option value="'Courier New',monospace">Courier - Ketik Mesin</option>
+      </select>
+
+      <label>🔤 JENIS HURUF JUDUL & ISI</label>
+      <select id="fFontIsi" onchange="updateFontUndangan()">
+        <option value="'Poppins',sans-serif">Poppins - Modern</option>
+        <option value="'Playfair Display',serif">Playfair - Mewah</option>
+        <option value="'Times New Roman',serif">Times - Klasik</option>
+        <option value="Arial,sans-serif">Arial - Simpel</option>
+        <option value="'Courier New',monospace">Courier - Ketik</option>
+      </select>
+
+      <label>Ukuran Nama Besar</label>
+      <div style="display:flex;gap:8px;align-items:center;margin:6px 0 10px">
+        <button type="button" onclick="ubahUkuranNama(-4)" style="width:40px!important;background:#888;color:#fff;border:none;border-radius:8px;cursor:pointer">A-</button>
+        <span id="labelUkuranNama" style="font-weight:700">48px</span>
+        <button type="button" onclick="ubahUkuranNama(4)" style="width:40px!important;background:#0a7a42;color:#fff;border:none;border-radius:8px;cursor:pointer">A+</button>
+        <button type="button" onclick="resetFontUndangan()" style="width:auto!important;padding:6px 10px!important;font-size:12px;background:#888;color:#fff;border:none;border-radius:20px;cursor:pointer">↩️ Reset Huruf</button>
+      </div>
+
+      <label>🎨 Atau UPLOAD DESIGN KAMU SENDIRI</label>
       <div class="upload-box">
         <input type="file" id="inputDesign" accept="image/*" onchange="uploadDesign(event)">
         <label for="inputDesign" class="upload-btn">📤 UPLOAD DESIGN</label>
@@ -241,7 +289,7 @@
         <option value="tidak">Tanpa Animasi</option>
       </select>
 
-      <label>Nama Tamu Untuk Cover Amplop (contoh: Bapak Yosef)</label>
+      <label>Nama Tamu Untuk Cover Amplop</label>
       <input id="fTamu" placeholder="Bapak / Ibu / Saudara ..." oninput="updateUndangan()" value="Tamu Undangan">
       <label>Judul Undangan</label><input id="fJudul" oninput="updateUndangan()">
       <label>Nama Acara</label><input id="fAcara" oninput="updateUndangan()">
@@ -251,8 +299,8 @@
       <label>Tempat</label><input id="fTempat" oninput="updateUndangan()">
       <label>Pesan Undangan</label><textarea id="fPesan" rows="3" oninput="updateUndangan()"></textarea>
       <label>Nama Pengundang</label><input id="fPengundang" oninput="updateUndangan()">
-      <label><input type="checkbox" id="pakaiCover" checked onchange="updateUndangan()" style="width:auto"> Pakai Cover Amplop (Buka Undangan) - seperti undangan wedding kekinian</label>
-      <button style="background:#0a7a42;color:#fff" onclick="simpanUndangan()">💾 SIMPAN SEMUA (Template + Design + Foto + Musik)</button>
+      <label><input type="checkbox" id="pakaiCover" checked onchange="updateUndangan()" style="width:auto"> Pakai Cover Amplop (Buka Undangan)</label>
+      <button style="background:#0a7a42;color:#fff" onclick="simpanUndangan()">💾 SIMPAN SEMUA (Template + Font + Design + Foto + Musik)</button>
       <button style="background:#25D366;color:#fff" onclick="bagikanWAUndangan()">📲 BAGIKAN KE WA / ORDER AKRE</button>
       <button style="background:#0a3a8a;color:#fff" onclick="buatLinkTamu()">🔗 BUAT LINK UNTUK TAMU (Nama Otomatis)</button>
       <button style="background:#d99a00;color:#fff" onclick="window.print()">🖨️ PRINT / SIMPAN PDF</button>
@@ -295,7 +343,6 @@
             <div style="font-size:11px;margin-top:10px;opacity:.8">AKRE BORONG - Borong Manggarai Timur | WA 0852-3926-1372</div>
           </div>
         </div>
-        <!-- COVER AMPLOP -->
         <div id="coverUndangan" class="cover-undangan" style="background:linear-gradient(135deg,#7a1a1a,#c9a227)">
           <div style="font-size:12px;letter-spacing:4px">AKRE BORONG - UNDANGAN</div>
           <div class="amplop">💌</div>
@@ -355,21 +402,38 @@ function filterDok(cat){document.querySelectorAll('.filter-btn').forEach(b=>b.cl
 const presetUndangan={nikah:{judul:'Undangan Pernikahan',acara:'Pemberkatan & Resepsi',nama:'Maria & Yosef',pesan:'Dengan penuh syukur dan sukacita, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu dalam pemberkatan pernikahan kami.',tempat:'Gereja St. Hieronymus - Jawang',pengundang:'Keluarga Besar Maria & Yosef',ornamen:'💍 ✦ ❀',tema:'emas',animasi:'hati',template:2},sambut:{judul:'Undangan Sambut Baru',acara:'Misa Sambut Baru & Syukuran',nama:'Anak Terkasih Kami',pesan:'Puji syukur kepada Tuhan, kami telah dikaruniai anak terkasih. Kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam Misa Sambut Baru dan syukuran bersama keluarga kami.',tempat:'Gereja / Rumah Keluarga - Borong',pengundang:'Keluarga Besar',ornamen:'👶 ✦ ❀',tema:'biru',animasi:'kupu',template:10},ultah:{judul:'Undangan Ulang Tahun',acara:'Syukuran Ulang Tahun',nama:'Adik Tersayang',pesan:'Dengan penuh syukur atas bertambahnya usia, kami mengundang Bapak/Ibu/Saudara/i dan teman-teman untuk hadir dan merayakan bersama dalam syukuran ulang tahun kami.',tempat:'Aula / Rumah - Borong',pengundang:'Keluarga Besar',ornamen:'🎂 🎉 ✦',tema:'pink',animasi:'confetti',template:4},hajatan:{judul:'Undangan Hajatan',acara:'Syukuran & Hajatan Keluarga',nama:'Keluarga Besar',pesan:'Dengan penuh syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara hajatan / syukuran keluarga kami. Kehadiran Anda adalah sukacita bagi kami.',tempat:'Rumah Keluarga - Borong',pengundang:'Keluarga Besar',ornamen:'🎉 ✦ ❀',tema:'hijau',animasi:'confetti',template:5},komuni:{judul:'Undangan Komuni Pertama',acara:'Misa Komuni Pertama & Syukuran',nama:'Anak Kami',pesan:'Dengan penuh syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam Misa Komuni Pertama anak kami dan syukuran bersama keluarga.',tempat:'Gereja St. Hieronymus - Jawang',pengundang:'Keluarga Besar',ornamen:'⛪ ✦ ❀',tema:'biru',animasi:'bunga',template:3}};
 const templateData={1:{bg:'linear-gradient(135deg,#7a1a1a,#c9a227,#7a1a1a)',tema:'emas',ornamen:'🟥 🟨 🟥 Adat Manggarai'},2:{bg:'linear-gradient(135deg,#8a6d00,#f5e08a,#8a6d00)',tema:'emas',ornamen:'💍 ✦ ❀'},3:{bg:'linear-gradient(135deg,#0a3a8a,#2e6bff)',tema:'biru',ornamen:'⛪ ✦ ❀'},4:{bg:'linear-gradient(135deg,#c2185b,#ff8ab0)',tema:'pink',ornamen:'🌸 💖 🌸'},5:{bg:'linear-gradient(135deg,#0a5a2a,#1fc96a)',tema:'hijau',ornamen:'🌿 ✦ 🌿'},6:{bg:'linear-gradient(135deg,#5a0000,#b71c1c)',tema:'pink',ornamen:'❤️ ✦ ❤️'},7:{bg:'linear-gradient(135deg,#111,#444)',tema:'emas',ornamen:'✦ 💎 ✦'},8:{bg:'linear-gradient(135deg,#d4b98a,#fff8e7)',tema:'emas',ornamen:'❀ ✦ ❀'},9:{bg:'linear-gradient(135deg,#4a148c,#9c27b0)',tema:'pink',ornamen:'💜 ✦ 💜'},10:{bg:'linear-gradient(135deg,#0288d1,#81d4fa)',tema:'biru',ornamen:'👶 💙 👶'}};
 let jenisAktif='nikah', templateAktif=1, designData='', fotoData='', cetakDesignData='', musikCustom='';
-function pilihTemplate(no,el){ templateAktif=no; document.querySelectorAll('.template-item').forEach(t=>t.classList.remove('aktif')); if(el) el.classList.add('aktif'); let d=templateData[no]; document.getElementById('coverUndangan').style.background=d.bg; if(!designData || !document.getElementById('pakaiDesign').checked){ /* cover ikut template */ } updateUndangan(); }
+function pilihTemplate(no,el){ templateAktif=no; document.querySelectorAll('.template-item').forEach(t=>t.classList.remove('aktif')); if(el) el.classList.add('aktif'); let d=templateData[no]; document.getElementById('coverUndangan').style.background=d.bg; updateUndangan(); }
 function pilihJenisUndangan(jenis){ jenisAktif=jenis; let p=presetUndangan[jenis]; document.getElementById('fJudul').value=p.judul; document.getElementById('fAcara').value=p.acara; document.getElementById('fNama').value=p.nama; document.getElementById('fTempat').value=p.tempat; document.getElementById('fPesan').value=p.pesan; document.getElementById('fPengundang').value=p.pengundang; document.getElementById('pOrnamen').innerText=p.ornamen; document.getElementById('fAnimasi').value=p.animasi; document.querySelectorAll('.chip-jenis button').forEach(b=>b.classList.remove('aktif')); let chip=document.getElementById('chip-'+jenis); if(chip) chip.classList.add('aktif'); pilihTemplate(p.template, document.querySelector('.template-item[data-t="'+p.template+'"]')); pilihTemaUndangan(p.tema, document.querySelectorAll('.tema-btn')[{emas:0,biru:1,hijau:2,pink:3}[p.tema]]); updateUndangan(); gantiAnimasi(); document.getElementById('undangan').scrollIntoView({behavior:'smooth'}); }
 function uploadDesign(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=function(ev){designData=ev.target.result;document.getElementById('previewDesignKecil').src=designData;document.getElementById('previewDesignKecil').classList.add('show');document.getElementById('statusUndangan').innerText='✅ Design berhasil diupload!';updateUndangan()};r.readAsDataURL(f)}
 function hapusDesign(){designData='';document.getElementById('inputDesign').value='';document.getElementById('previewDesignKecil').classList.remove('show');updateUndangan()}
 function uploadFoto(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=function(ev){fotoData=ev.target.result;document.getElementById('previewFotoKecil').src=fotoData;document.getElementById('previewFotoKecil').classList.add('show');updateUndangan()};r.readAsDataURL(f)}
 function hapusFoto(){fotoData='';document.getElementById('inputFoto').value='';document.getElementById('previewFotoKecil').classList.remove('show');updateUndangan()}
 function uploadCetakDesign(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=function(ev){cetakDesignData=ev.target.result;document.getElementById('previewCetakDesign').src=cetakDesignData;document.getElementById('previewCetakDesign').classList.add('show');document.getElementById('infoCetakDesign').innerText='✅ Design cetak terupload: '+f.name};r.readAsDataURL(f)}
+// ===== FONT: WARNA + JENIS HURUF =====
+let ukuranNama=48, pakaiWarnaSendiri=false;
+function updateFontUndangan(){
+  let warna=document.getElementById('fWarnaFont').value;
+  let fontNama=document.getElementById('fFontNama').value;
+  let fontIsi=document.getElementById('fFontIsi').value;
+  let preview=document.getElementById('previewUndangan');
+  document.getElementById('labelWarnaFont').innerText=warna;
+  document.getElementById('labelUkuranNama').innerText=ukuranNama+'px';
+  if(pakaiWarnaSendiri){ preview.style.setProperty('--warnaFont', warna); } else { preview.style.removeProperty('--warnaFont'); }
+  preview.style.setProperty('--fontNama', fontNama);
+  preview.style.setProperty('--fontIsi', fontIsi);
+  preview.style.setProperty('--ukuranNama', ukuranNama+'px');
+}
+function setWarnaFont(warna){ pakaiWarnaSendiri=true; document.getElementById('fWarnaFont').value=warna; updateFontUndangan(); }
+function resetWarnaFont(){ pakaiWarnaSendiri=false; document.getElementById('previewUndangan').style.removeProperty('--warnaFont'); document.getElementById('labelWarnaFont').innerText='Warna Template'; updateFontUndangan(); }
+function ubahUkuranNama(n){ ukuranNama=Math.max(28,Math.min(80,ukuranNama+n)); updateFontUndangan(); }
+function resetFontUndangan(){ ukuranNama=48; pakaiWarnaSendiri=false; document.getElementById('fFontNama').value="'Great Vibes',cursive"; document.getElementById('fFontIsi').value="'Poppins',sans-serif"; document.getElementById('fWarnaFont').value="#4a3200"; updateFontUndangan(); }
 // ===== MUSIK =====
 const musikList={bawaan:'https://cdn.pixabay.com/audio/2022/03/10/audio_2c8c7f7b5e.mp3',gereja:'https://cdn.pixabay.com/audio/2022/01/18/audio_1c2b8e1b3e.mp3',adat:'https://cdn.pixabay.com/audio/2023/09/19/audio_8a3b5c1d2f.mp3',ultah:'https://cdn.pixabay.com/audio/2022/11/22/audio_5c2b8e1b3e.mp3'};
 function gantiMusik(){let v=document.getElementById('fMusik').value;let audio=document.getElementById('musikUndangan');if(v==='tidak'){audio.pause();return} if(musikCustom && v==='bawaan'){audio.src=musikCustom} else if(musikList[v]){audio.src=musikList[v]} audio.load()}
 function uploadMusik(e){let f=e.target.files[0];if(!f)return;let url=URL.createObjectURL(f);musikCustom=url;document.getElementById('musikUndangan').src=url;document.getElementById('statusUndangan').innerText='✅ Musik berhasil diupload: '+f.name;document.getElementById('fMusik').value='bawaan'}
-function testMusik(){let audio=document.getElementById('musikUndangan');if(document.getElementById('fMusik').value==='tidak'){alert('Pilih musik dulu, jangan Tanpa Musik');return}audio.play().catch(()=>alert('Klik lagi untuk putar musik - browser butuh klik dulu'));document.getElementById('btnMusik').classList.add('show');document.getElementById('btnMusik').innerText='🔊'}
+function testMusik(){let audio=document.getElementById('musikUndangan');if(document.getElementById('fMusik').value==='tidak'){alert('Pilih musik dulu, jangan Tanpa Musik');return}audio.play().catch(()=>alert('Klik lagi untuk putar musik'));document.getElementById('btnMusik').classList.add('show');document.getElementById('btnMusik').innerText='🔊'}
 function stopMusik(){document.getElementById('musikUndangan').pause();document.getElementById('btnMusik').innerText='🔇'}
 function toggleMusik(){let a=document.getElementById('musikUndangan');if(a.paused){a.play();document.getElementById('btnMusik').innerText='🔊'}else{a.pause();document.getElementById('btnMusik').innerText='🔇'}}
-// ===== COVER AMPLOP =====
 function bukaUndangan(){document.getElementById('coverUndangan').classList.add('tersembunyi');let audio=document.getElementById('musikUndangan');if(document.getElementById('fMusik').value!=='tidak'){audio.play().catch(()=>{});document.getElementById('btnMusik').classList.add('show');document.getElementById('btnMusik').innerText='🔊'}gantiAnimasi();let isi=document.querySelector('.isi');isi.classList.remove('masuk-animasi');void isi.offsetWidth;isi.classList.add('masuk-animasi')}
 function tutupLagiUndangan(){document.getElementById('coverUndangan').classList.remove('tersembunyi');stopMusik();document.getElementById('animasiLayer').innerHTML=''}
 function gantiAnimasi(){let layer=document.getElementById('animasiLayer');layer.innerHTML='';let tipe=document.getElementById('fAnimasi').value;if(tipe==='tidak')return;let emojis={bunga:['🌸','🌺','🌷','❀'],hati:['❤️','💖','💕','💍'],confetti:['🎉','🎊','⭐','🎈'],kupu:['🦋','🌸','✨','🦋']};let warna=['#ff2a2a','#f5c542','#0a7a42','#0a3a8a','#c2185b','#ff8ab0'];let list=emojis[tipe]||emojis.bunga;for(let i=0;i<18;i++){let el=document.createElement('div');if(tipe==='confetti'){el.className='confetti';el.style.left=Math.random()*96+'%';el.style.background=warna[i%warna.length];el.style.animationDuration=(2.5+Math.random()*3)+'s';el.style.animationDelay=(Math.random()*2)+'s'}else if(tipe==='hati'){el.className='hati-terbang';el.innerText=list[i%list.length];el.style.left=Math.random()*90+'%';el.style.animationDuration=(3+Math.random()*3)+'s';el.style.animationDelay=(Math.random()*2)+'s'}else{el.className='jatuh';el.innerText=list[i%list.length];el.style.left=Math.random()*96+'%';el.style.animationDuration=(3+Math.random()*4)+'s';el.style.animationDelay=(Math.random()*3)+'s'}layer.appendChild(el)}}
@@ -395,19 +459,19 @@ function updateUndangan(){
   else {let t=templateData[templateAktif];bg.style.backgroundImage='none';bg.style.background=t.bg;overlay.style.background='transparent';document.getElementById('coverUndangan').style.backgroundImage='none';document.getElementById('coverUndangan').style.background=t.bg;}
   let pakaiFoto=document.getElementById('pakaiFoto').checked && fotoData; let fotoEl=document.getElementById('fotoUtama'); if(pakaiFoto){fotoEl.src=fotoData;fotoEl.classList.add('show')}else{fotoEl.classList.remove('show')}
   hitungMundurUndangan();
+  updateFontUndangan();
 }
 function pilihTemaUndangan(t,el){temaUndangan=t;document.getElementById('previewUndangan').className='undangan tema-'+t;if(el){document.querySelectorAll('.tema-btn').forEach(b=>b.classList.remove('aktif'));el.classList.add('aktif')}}
-function simpanUndangan(){dataUndangan={judul:document.getElementById('fJudul').value,acara:document.getElementById('fAcara').value,nama:document.getElementById('fNama').value,tanggal:document.getElementById('fTanggal').value,jam:document.getElementById('fJam').value,tempat:document.getElementById('fTempat').value,pesan:document.getElementById('fPesan').value,pengundang:document.getElementById('fPengundang').value,tema:temaUndangan,jenis:jenisAktif,animasi:document.getElementById('fAnimasi').value,template:templateAktif,design:designData,foto:fotoData,opacity:document.getElementById('opacityDesign').value,tamu:document.getElementById('fTamu').value,musik:document.getElementById('fMusik').value,pakaiCover:document.getElementById('pakaiCover').checked};try{localStorage.setItem('akreUndangan',JSON.stringify(dataUndangan));document.getElementById('statusUndangan').innerText='✅ Tersimpan! Template + Design + Foto + Musik ikut tersimpan.'}catch(e){document.getElementById('statusUndangan').innerText='⚠️ Foto/design terlalu besar, coba foto lebih kecil. Data teks tetap tersimpan.';let tmp={...dataUndangan,design:'',foto:''};localStorage.setItem('akreUndangan',JSON.stringify(tmp))}}
-function bagikanWAUndangan(){simpanUndangan();let teks='Halo AKRE BORONG, saya mau order Undangan Digital ('+jenisAktif+'):\n\n💌 *'+(dataUndangan.judul||'Undangan')+'*\n*'+(dataUndangan.nama||'')+'*\n'+(dataUndangan.acara||'')+'\n📅 '+fmtTanggalUndangan(dataUndangan.tanggal)+'\n🕙 Pukul '+(dataUndangan.jam||'')+'\n📍 '+(dataUndangan.tempat||'')+'\n\n'+(dataUndangan.pesan||'')+'\n\n🎨 Template AKRE No: '+templateAktif+'\n✨ Animasi: '+(dataUndangan.animasi||'')+'\n🎵 Musik: '+(dataUndangan.musik||'')+'\n🎨 Design: '+(designData?'Sudah upload design sendiri':'Pakai template AKRE No '+templateAktif)+'\n📷 Foto: '+(fotoData?'Sudah upload foto':'Tanpa foto')+'\n\nHormat kami,\n'+(dataUndangan.pengundang||'');window.open('https://wa.me/6285239261372?text='+encodeURIComponent(teks),'_blank')}
+function simpanUndangan(){dataUndangan={judul:document.getElementById('fJudul').value,acara:document.getElementById('fAcara').value,nama:document.getElementById('fNama').value,tanggal:document.getElementById('fTanggal').value,jam:document.getElementById('fJam').value,tempat:document.getElementById('fTempat').value,pesan:document.getElementById('fPesan').value,pengundang:document.getElementById('fPengundang').value,tema:temaUndangan,jenis:jenisAktif,animasi:document.getElementById('fAnimasi').value,template:templateAktif,design:designData,foto:fotoData,opacity:document.getElementById('opacityDesign').value,tamu:document.getElementById('fTamu').value,musik:document.getElementById('fMusik').value,pakaiCover:document.getElementById('pakaiCover').checked,warnaFont:document.getElementById('fWarnaFont').value,pakaiWarnaSendiri:pakaiWarnaSendiri,fontNama:document.getElementById('fFontNama').value,fontIsi:document.getElementById('fFontIsi').value,ukuranNama:ukuranNama};try{localStorage.setItem('akreUndangan',JSON.stringify(dataUndangan));document.getElementById('statusUndangan').innerText='✅ Tersimpan! Template + Font + Design + Foto + Musik ikut tersimpan.'}catch(e){document.getElementById('statusUndangan').innerText='⚠️ Foto/design terlalu besar, coba foto lebih kecil. Data teks tetap tersimpan.';let tmp={...dataUndangan,design:'',foto:''};localStorage.setItem('akreUndangan',JSON.stringify(tmp))}}
+function bagikanWAUndangan(){simpanUndangan();let teks='Halo AKRE BORONG, saya mau order Undangan Digital ('+jenisAktif+'):\n\n💌 *'+(dataUndangan.judul||'Undangan')+'*\n*'+(dataUndangan.nama||'')+'*\n'+(dataUndangan.acara||'')+'\n📅 '+fmtTanggalUndangan(dataUndangan.tanggal)+'\n🕙 Pukul '+(dataUndangan.jam||'')+'\n📍 '+(dataUndangan.tempat||'')+'\n\n'+(dataUndangan.pesan||'')+'\n\n🎨 Template AKRE No: '+templateAktif+'\n🎨 Warna Font: '+(dataUndangan.warnaFont||'')+'\n🔤 Font Nama: '+(dataUndangan.fontNama||'')+'\n✨ Animasi: '+(dataUndangan.animasi||'')+'\n🎵 Musik: '+(dataUndangan.musik||'')+'\n🎨 Design: '+(designData?'Sudah upload design sendiri':'Pakai template AKRE No '+templateAktif)+'\n📷 Foto: '+(fotoData?'Sudah upload foto':'Tanpa foto')+'\n\nHormat kami,\n'+(dataUndangan.pengundang||'');window.open('https://wa.me/6285239261372?text='+encodeURIComponent(teks),'_blank')}
 function buatLinkTamu(){simpanUndangan();let tamu=document.getElementById('fTamu').value||'Tamu Undangan';let link=location.origin+location.pathname+'#undangan?untuk='+encodeURIComponent(tamu);let input=document.getElementById('linkTamuHasil');input.style.display='block';input.value=link;input.select();try{navigator.clipboard.writeText(link)}catch(e){}alert('Link untuk tamu berhasil dibuat dan tersalin!\n\n'+link+'\n\nKirim link ini ke tamu, cover akan tulis otomatis: Kepada Yth '+tamu)}
 function rsvpUndangan(){let nama=prompt('Tulis nama Anda untuk konfirmasi hadir:');if(nama)alert('Terima kasih '+nama+'! Kehadiran Anda sudah kami catat. Sampai jumpa di acara!')}
-function resetUndangan(){if(!confirm('Hapus semua isian undangan?'))return;localStorage.removeItem('akreUndangan');designData='';fotoData='';['fAcara','fNama','fTanggal','fTempat','fPesan','fPengundang'].forEach(id=>document.getElementById(id).value='');document.getElementById('fJam').value='10:00';pilihJenisUndangan('nikah')}
+function resetUndangan(){if(!confirm('Hapus semua isian undangan?'))return;localStorage.removeItem('akreUndangan');designData='';fotoData='';['fAcara','fNama','fTanggal','fTempat','fPesan','fPengundang'].forEach(id=>document.getElementById(id).value='');document.getElementById('fJam').value='10:00';resetFontUndangan();pilihJenisUndangan('nikah')}
 function hitungMundurUndangan(){let t=document.getElementById('fTanggal').value;if(!t)return;let target=new Date(t+'T'+(document.getElementById('fJam').value||'10:00')+':00');let selisih=target-new Date();if(selisih<0)selisih=0;document.getElementById('cdHari').innerText=Math.floor(selisih/86400000);document.getElementById('cdJam').innerText=Math.floor(selisih%86400000/3600000);document.getElementById('cdMenit').innerText=Math.floor(selisih%3600000/60000);document.getElementById('cdDetik').innerText=Math.floor(selisih%60000/1000)}
 function hitungEstimasiCetak(){let j=document.getElementById('cJumlah').value;let harga='Rp150rb';if(j.includes('100'))harga='Rp250rb';if(j.includes('150'))harga='Rp350rb';if(j.includes('200'))harga='Rp450rb';if(j.includes('300'))harga='Rp650rb';if(j.includes('500'))harga='Rp950rb';document.getElementById('estimasiCetak').innerText='Estimasi '+j+' : '+harga+' (sudah desain + cetak + amplop)';return harga}
-function orderCetakUndangan(){let teks='Halo AKRE BORONG, saya mau ORDER CETAK UNDANGAN 🖨️\n\n📦 Jenis: '+document.getElementById('cJenis').value+'\n👤 Nama Pemesan: '+(document.getElementById('cNama').value||'-')+'\n📱 WA Pemesan: '+(document.getElementById('cWaPemesan').value||'-')+'\n📝 Isi Undangan: '+document.getElementById('cIsi').value+'\n📊 Jumlah: '+document.getElementById('cJumlah').value+'\n📐 Ukuran: '+document.getElementById('cUkuran').value+'\n📄 Kertas: '+document.getElementById('cKertas').value+'\n📅 Butuh Kapan: '+(document.getElementById('cDeadline').value||'-')+'\n💰 Estimasi: '+hitungEstimasiCetak()+'\n🎨 Template AKRE No: '+templateAktif+'\n🎨 Design: '+(cetakDesignData?'Sudah upload design di web':'Minta AKRE buatkan design')+'\n📌 Catatan: '+document.getElementById('cCatatan').value+'\n\nMohon konfirmasi desain dan total ya. Terima kasih AKRE!';window.open('https://wa.me/6285239261372?text='+encodeURIComponent(teks),'_blank')}
-// Nama tamu dari link ?untuk=
+function orderCetakUndangan(){let teks='Halo AKRE BORONG, saya mau ORDER CETAK UNDANGAN 🖨️\n\n📦 Jenis: '+document.getElementById('cJenis').value+'\n👤 Nama Pemesan: '+(document.getElementById('cNama').value||'-')+'\n📱 WA Pemesan: '+(document.getElementById('cWaPemesan').value||'-')+'\n📝 Isi Undangan: '+document.getElementById('cIsi').value+'\n📊 Jumlah: '+document.getElementById('cJumlah').value+'\n📐 Ukuran: '+document.getElementById('cUkuran').value+'\n📄 Kertas: '+document.getElementById('cKertas').value+'\n📅 Butuh Kapan: '+(document.getElementById('cDeadline').value||'-')+'\n💰 Estimasi: '+hitungEstimasiCetak()+'\n🎨 Template AKRE No: '+templateAktif+'\n🎨 Warna Font: '+document.getElementById('fWarnaFont').value+'\n🔤 Font: '+document.getElementById('fFontNama').value+'\n🎨 Design: '+(cetakDesignData?'Sudah upload design di web':'Minta AKRE buatkan design')+'\n📌 Catatan: '+document.getElementById('cCatatan').value+'\n\nMohon konfirmasi desain dan total ya. Terima kasih AKRE!';window.open('https://wa.me/6285239261372?text='+encodeURIComponent(teks),'_blank')}
 let params=new URLSearchParams(location.hash.split('?')[1]||''); let tamuDariLink=params.get('untuk'); if(tamuDariLink){document.getElementById('fTamu').value=decodeURIComponent(tamuDariLink)}
-if(dataUndangan.judul||dataUndangan.nama){document.getElementById('fJudul').value=dataUndangan.judul||'Undangan Pernikahan';document.getElementById('fAcara').value=dataUndangan.acara||'';document.getElementById('fNama').value=dataUndangan.nama||'';document.getElementById('fTanggal').value=dataUndangan.tanggal||'';document.getElementById('fJam').value=dataUndangan.jam||'10:00';document.getElementById('fTempat').value=dataUndangan.tempat||'';document.getElementById('fPesan').value=dataUndangan.pesan||'';document.getElementById('fPengundang').value=dataUndangan.pengundang||'';if(dataUndangan.jenis)jenisAktif=dataUndangan.jenis;if(dataUndangan.animasi)document.getElementById('fAnimasi').value=dataUndangan.animasi;if(dataUndangan.template){templateAktif=dataUndangan.template;document.querySelectorAll('.template-item').forEach(t=>t.classList.remove('aktif'));let el=document.querySelector('.template-item[data-t="'+templateAktif+'"]');if(el)el.classList.add('aktif')}if(dataUndangan.design){designData=dataUndangan.design;document.getElementById('previewDesignKecil').src=designData;document.getElementById('previewDesignKecil').classList.add('show')}if(dataUndangan.foto){fotoData=dataUndangan.foto;document.getElementById('previewFotoKecil').src=fotoData;document.getElementById('previewFotoKecil').classList.add('show')}if(dataUndangan.opacity)document.getElementById('opacityDesign').value=dataUndangan.opacity;if(dataUndangan.tamu)document.getElementById('fTamu').value=dataUndangan.tamu;if(dataUndangan.musik)document.getElementById('fMusik').value=dataUndangan.musik;if(dataUndangan.pakaiCover!==undefined)document.getElementById('pakaiCover').checked=dataUndangan.pakaiCover;if(dataUndangan.tema){temaUndangan=dataUndangan.tema;document.getElementById('previewUndangan').className='undangan tema-'+temaUndangan}}else{pilihJenisUndangan('nikah')}
+if(dataUndangan.judul||dataUndangan.nama){document.getElementById('fJudul').value=dataUndangan.judul||'Undangan Pernikahan';document.getElementById('fAcara').value=dataUndangan.acara||'';document.getElementById('fNama').value=dataUndangan.nama||'';document.getElementById('fTanggal').value=dataUndangan.tanggal||'';document.getElementById('fJam').value=dataUndangan.jam||'10:00';document.getElementById('fTempat').value=dataUndangan.tempat||'';document.getElementById('fPesan').value=dataUndangan.pesan||'';document.getElementById('fPengundang').value=dataUndangan.pengundang||'';if(dataUndangan.jenis)jenisAktif=dataUndangan.jenis;if(dataUndangan.animasi)document.getElementById('fAnimasi').value=dataUndangan.animasi;if(dataUndangan.template){templateAktif=dataUndangan.template;document.querySelectorAll('.template-item').forEach(t=>t.classList.remove('aktif'));let el=document.querySelector('.template-item[data-t="'+templateAktif+'"]');if(el)el.classList.add('aktif')}if(dataUndangan.design){designData=dataUndangan.design;document.getElementById('previewDesignKecil').src=designData;document.getElementById('previewDesignKecil').classList.add('show')}if(dataUndangan.foto){fotoData=dataUndangan.foto;document.getElementById('previewFotoKecil').src=fotoData;document.getElementById('previewFotoKecil').classList.add('show')}if(dataUndangan.opacity)document.getElementById('opacityDesign').value=dataUndangan.opacity;if(dataUndangan.tamu)document.getElementById('fTamu').value=dataUndangan.tamu;if(dataUndangan.musik)document.getElementById('fMusik').value=dataUndangan.musik;if(dataUndangan.pakaiCover!==undefined)document.getElementById('pakaiCover').checked=dataUndangan.pakaiCover;if(dataUndangan.warnaFont)document.getElementById('fWarnaFont').value=dataUndangan.warnaFont;if(dataUndangan.pakaiWarnaSendiri!==undefined)pakaiWarnaSendiri=dataUndangan.pakaiWarnaSendiri;if(dataUndangan.fontNama)document.getElementById('fFontNama').value=dataUndangan.fontNama;if(dataUndangan.fontIsi)document.getElementById('fFontIsi').value=dataUndangan.fontIsi;if(dataUndangan.ukuranNama)ukuranNama=dataUndangan.ukuranNama;if(dataUndangan.tema){temaUndangan=dataUndangan.tema;document.getElementById('previewUndangan').className='undangan tema-'+temaUndangan}}else{pilihJenisUndangan('nikah')}
 updateUndangan(); setInterval(hitungMundurUndangan,1000);
 </script>
 </body>
